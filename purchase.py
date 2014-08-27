@@ -313,7 +313,7 @@ class purchase_order(OpenbaseCore):
         search_ids = []
         search_ids.extend(ids)
         for id in ids:
-            ret.setdefault(id, {'attach_ids':[],'engage_to_treat':False,'all_invoices_treated':False, 
+            ret.setdefault(id, {'attach_ids':[], 'attach_invoice_ids': [], 'engage_to_treat':False,'all_invoices_treated':False, 
                                 'attach_not_invoices': [], 'attach_waiting_invoice_ids': [], 'attach_invoices': []})
         for r in cr.fetchall():
             if r[1] in ids:
@@ -321,6 +321,7 @@ class purchase_order(OpenbaseCore):
                 #if attach is an invoice
                 if r[2] <> 'not_invoice':
                     ret[r[1]]['attach_invoices'].append(attach_value)
+                    ret[r[1]]['attach_invoice_ids'].append(r[0])
                     #if an invoice has to be check, purchase will appear in board
                     if r[2] in ('to_check','except_send_mail') and not r[3]:
                         ret[r[1]]['engage_to_treat'] = True
@@ -443,6 +444,7 @@ class purchase_order(OpenbaseCore):
             'justificatif_refus':fields.text('Justification de votre Refus pour Paiement'),
             'engage_lines':fields.one2many('open.engagement.line','engage_id',string='Numéros d\'Engagements'),
             'attach_ids':fields.function(_get_engage_attaches, multi="attaches", type='one2many', relation='ir.attachment',string='Documents Joints'),
+            'attach_invoice_ids':fields.function(_get_engage_attaches, multi="attaches", type='one2many', relation='ir.attachment',string='Factures Jointes'),
             'id':fields.integer('Id'),
             'current_url':fields.char('URL Courante',size=256),
             
