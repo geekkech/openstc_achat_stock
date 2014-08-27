@@ -26,9 +26,9 @@
 				<search>
 					<filter name="openstc_draft" string="Budget to check" domain="[('validation','=','budget_to_check')]"
 					    help="Purchases where budgets have to be checked" icon="terp-folder-blue"/>
-					<filter name="openstc_to_check_dst" string="Purchases to be signed by manager" domain="['&amp;',('validation','=','engagement_to_check'),('check_dst','=',False)]" icon="terp-folder-blue"
+					<filter name="openstc_to_check_dst" string="Purchases to be signed by manager" domain="['&amp;',('validation','=','engagement_to_check')]" icon="terp-folder-blue"
 					    help="Purchases to be signed by manager because purchase amount is higher than user max amount."/>
-					<filter name="openstc_to_check_elu" string="Purchases to be signed by elu" domain="['&amp;','&amp;',('validation','=','engagement_to_check'),('check_elu','=',False),('check_dst','=',True)]" icon="terp-folder-blue"
+					<filter name="openstc_to_check_elu" string="Purchases to be signed by elu" domain="['&amp;','&amp;',('validation','=','engagement_to_check')]" icon="terp-folder-blue"
 					    help="Purchases to be signed by elu before being validated"/>
 					
 					<filter name="openstc_po_shipping" string="Purchases waiting for shipping" domain="['&amp;',('validation','in',('done','purchase_engaged')),('reception_ok','=',False)]"
@@ -139,15 +139,15 @@
 					
 					<group col="4" colspan="1" groups="openbase.openstc_elu,openbase.openstc_dst"
 						attrs="{'invisible':[('validation','&lt;&gt;','engagement_to_check')],'readonly':[('all_budget_dispo','=',False)]}">
-						<field name="check_dst" colspan="2" invisible="1" readonly="1"/>
+						
 						<button name="action_dst_check" type="object" string="Validate purchase by DST" groups="openbase.openstc_dst"
-						    icon="gtk-apply" attrs="{'invisible':[('check_dst','=',True)]}"/>
+						    icon="gtk-apply"/>
 						<field name="mail_sent" invisible="1"/>
 						<button name="action_dst_check" type="object" string="Send again mail to Elu" groups="openbase.openstc_dst"
-						    icon="gtk-execute" attrs="{'invisible':['|',('mail_sent','=',True),('check_dst','=',False)]}"/>
+						    icon="gtk-execute" attrs="{'invisible':['|',('mail_sent','=',True)]}"/>
 						<button name="signal_except_check" string="Refuse purchase by DST"
 							icon="gtk-cancel" type="workflow"
-							groups="openbase.openstc_dst" attrs="{'invisible':[('check_dst','=',True)]}" />
+							groups="openbase.openstc_dst" />
 						<button name="%(open_engage_check_elu_wizard)d" icon="gtk-apply"
 							string="Valider la commande par l'Elu" type="action"
 							groups="openbase.openstc_elu" />
@@ -158,8 +158,8 @@
 				</button>
 				<button name="%(purchase.report_purchase_order)d" position="after">
 					<group colspan="3" col="6">
-						<field name="check_dst" readonly="1" attrs="{'invisible':[('state','&lt;&gt;','draft'),('need_confirm','=',False)]}"/>
-						<field name="check_elu" readonly="1" attrs="{'invisible':[('state','&lt;&gt;','draft'),('need_confirm','=',False)]}"/>     
+						
+						     
 					</group>
 				</button>
 				<button name="action_cancel" position="replace"/>
