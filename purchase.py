@@ -681,7 +681,7 @@ class purchase_order(osv.osv):
         for po in self.browse(cr, uid, ids ,context=context):
             ret = template.create_file(po)
             #write file on remote CIRIL server
-            base_path = '%s/%s/%s' % (os.getenv('HOME', '.'),config.options.get('openerp_ciril_repository',''),cr.dbname)
+            base_path = '%s/%s' % (config.options.get('openerp_ciril_repository',''),cr.dbname)
             file_path = '%s/todo/%s.txt' % (base_path,po.name.replace('/','_'))
             ret_file = open(file_path, 'w')
             ret_file.write(ret.encode('utf-8'))
